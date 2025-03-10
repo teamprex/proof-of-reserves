@@ -4,7 +4,6 @@ import (
 	"crypto/sha256"
 	"encoding/base64"
 	"encoding/hex"
-	"encoding/json"
 )
 
 // Asset represents each asset in the assets list.
@@ -34,11 +33,11 @@ func (p *MerkleProof) GetProofsBytes() [][]byte {
 }
 
 func (p *MerkleProof) GetLeafHash() []byte {
-	assetsJSON, err := json.Marshal(p.Assets)
-	if err != nil {
-		panic(err.Error())
+	assetString := ""
+	for _, asset := range p.Assets {
+		assetString += "|" + asset.Currency + ":" + asset.Balance
 	}
-	leafHash := sha256.Sum256(assetsJSON)
+	leafHash := sha256.Sum256([]byte(assetString))
 	return leafHash[:]
 }
 
