@@ -39,10 +39,12 @@ func verifyMerkleProof(leafIndex int, leafHash []byte, root []byte, proofs [][]b
 func main() {
 	content, err := os.ReadFile("data/merkle_proof.json")
 	if err != nil {
+		fmt.Println("File not found at the given path. Please check the file path.")
 		panic(err.Error())
 	}
 	merkleProof := &types.MerkleProof{}
 	if err := json.Unmarshal(content, merkleProof); err != nil {
+		fmt.Println("Invalid JSON format. Please check the JSON file.")
 		panic(err.Error())
 	}
 	proofsBytes := merkleProof.GetProofsBytes()
